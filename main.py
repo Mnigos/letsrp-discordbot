@@ -1,13 +1,13 @@
+import os
 import discord
 
 from dotenv import load_dotenv, find_dotenv
-from os import getenv, listdir
 from discord.ext import commands
 
 
 load_dotenv(find_dotenv())
 
-key = getenv('CLIENT_SECRET')
+key = os.getenv('CLIENT_SECRET')
 client = commands.Bot(command_prefix = 'rp!')
 
 @client.event
@@ -23,7 +23,7 @@ async def unload(ctx, extension):
     client.unload_extension(f'cogs.{extension}')
 
 
-for filename in listdir('./cogs'):
+for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
