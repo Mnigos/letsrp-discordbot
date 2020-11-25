@@ -24,7 +24,7 @@ async def unload(ctx, extension):
 
 
 for filename in listdir('./cogs'):
-    if filname.endswith('.py'):
+    if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
 
