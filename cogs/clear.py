@@ -10,9 +10,16 @@ class Clear(commands.Cog):
 
     @commands.command()
     async def clear(self, ctx, amount=0):
-        await ctx.message.delete()
-        await ctx.channel.purge(limit = amount)
-        await ctx.channel.send(f'Deleted {amount} message(s)', delete_after=5)
+
+        if amount == 0:
+            ctx.message.delete()
+            await ctx.channel.send("You've to specify amount of purge", delete_after=5)
+        else:
+            await ctx.message.delete()
+            await ctx.channel.purge(limit = amount)
+            await ctx.channel.send(f'Deleted {amount} message(s)', delete_after=5)
+
+
 
 
 def setup(client):
