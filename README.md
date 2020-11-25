@@ -6,7 +6,7 @@ Simply discordbot for Polish GTA V FiveM RolePlay Server.
 https://letsrp.pl
 
 ## Discord
-[Join us!](https://discord.gg/Ffrh3KY)
+https://discord.gg/Ffrh3KY
 
 ### Project setup
 ```
