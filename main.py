@@ -9,8 +9,10 @@ from forms import sending_forms
 
 load_dotenv(find_dotenv())
 
+intents = discord.Intents.default()
+intents.members = True
 key = os.getenv('CLIENT_SECRET')
-client = commands.Bot(command_prefix = 'rp!')
+client = commands.Bot(command_prefix = 'rp!', intents = intents)
 clientDB = MongoClient(os.getenv('MONGO_URI'))
 db = clientDB['Letsrp-db']
 wlforms = db.wlforms

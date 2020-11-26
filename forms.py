@@ -9,38 +9,37 @@ async def sending_forms(wlforms, client):
     formRejected = wlforms.find_one({ 'status': 'rejected' })
 
     if formAccepted is not None:
-        print('e')
         dc = formAccepted['dc']
         guild = client.get_guild(640178024280752158)
-        tag = dc[:dc.length[:-5]]
-        user = discord.utils.get(guild.members, name = dc[:-5], discriminator = tag)
+        user = guild.get_member_named(dc)
+        print(user)
 
-        embed = discord.Embed(
-            title = 'Podanie Whitelist',
-            description = f'''Twoje podanie {user} na Whitelist zostało zaakceptowane.
-            Zgłoś się jak najszybciej na rozmowę!''',
-            colour = 0x00ff00
-        )
+        if user is not None:
+            embed = discord.Embed(
+                title = 'Podanie Whitelist',
+                description = f'''Twoje podanie {user.mention} na Whitelist zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
 
-        await channel.send(embed = embed)
-        await channel.send(user.mention)
-        formAccepted.update({ 'status': 'acceptedSent' })
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
 
     if formRejected is not None:
         name = formRejected['dc']
         reason = formRejected['reason']
-        guild = client.get_guild(640178024280752158)
-        tag = dc[:dc.length[:-5]]
-        user = discord.utils.get(guild.members, name = dc[:-5], discriminator = tag)
+        user = guild.get_member_named(dc)
 
         embed = discord.Embed(
             title = 'Podanie Whitelist',
-            description = f'''Twoje podanie {name} na Whitelist zostało odrzucone.
+            description = f'''Twoje podanie {name.mention} na Whitelist zostało odrzucone.
             Możesz napisac następne za 24h''',
             colour = 0xff0000
         )
         embed.add_field(name = 'Powód:', value = f'{reason}')
+        wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
 
         await channel.send(embed = embed)
         await channel.send(user.mention)
-        formAccepted.update({ 'status': 'rejectedSent' })
