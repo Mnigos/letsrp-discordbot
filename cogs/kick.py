@@ -19,12 +19,12 @@ class Kick(commands.Cog):
             if reason is not None:
                 await ctx.message.delete()
                 await ctx.channel.send(f'Kicked {user.mention}, for: {reason}')
-                await user.send(f'You were kicked in ${ctx.guild.name}, for: {reason}')
+                await user.send(f'You were kicked in {ctx.guild.name}, for: {reason}')
                 await user.kick(reason = reason)
             else:
                 await ctx.message.delete()
                 await ctx.channel.send(f'Kicked {user.mention}, for: No reason')
-                await user.send(f'You were kicked in ${ctx.guild.name}, for: No reason given')
+                await user.send(f'You were kicked in {ctx.guild.name}, for: No reason given')
                 await user.kick(reason = 'No reason given')
 
 
