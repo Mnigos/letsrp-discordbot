@@ -12,6 +12,8 @@ client = commands.Bot(command_prefix = 'rp!')
 
 @client.event
 async def on_ready():
+    activity = discord.Game("Let's RP")
+    await client.change_presence(activity = activity)
     print('Bot is active!')
 
 @client.command()
