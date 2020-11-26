@@ -12,7 +12,7 @@ class Clear(commands.Cog):
     async def clear(self, ctx, amount=0):
 
         if amount == 0:
-            ctx.message.delete()
+            await ctx.message.delete()
             await ctx.channel.send("You've to specify amount of purge", delete_after=5)
         else:
             await ctx.message.delete()
