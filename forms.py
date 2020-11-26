@@ -5,12 +5,14 @@ from discord.ext import commands, tasks
 @tasks.loop(seconds = 2)
 async def sending_forms(wlforms, client):
     channel = client.get_channel(694925226697556078)
+    guild = client.get_guild(640178024280752158)
+    role = guild.get_role(693824755911884831)
+
     formAccepted = wlforms.find_one({ 'status': 'accepted' })
     formRejected = wlforms.find_one({ 'status': 'rejected' })
 
     if formAccepted is not None:
         dc = formAccepted['dc']
-        guild = client.get_guild(640178024280752158)
         user = guild.get_member_named(dc)
         print(user)
 
@@ -25,6 +27,7 @@ async def sending_forms(wlforms, client):
 
             await channel.send(embed = embed)
             await channel.send(user.mention)
+            await client.add_roles(user, role)
 
 
     if formRejected is not None:
