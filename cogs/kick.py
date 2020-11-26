@@ -9,8 +9,8 @@ class Kick(commands.Cog):
         self.client = client
 
     @commands.command()
-    @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, user: discord.Member=None, *, reason = None):
+    @commands.has_permissions(kick_members = True)
+    async def kick(self, ctx, user: discord.Member = None, *, reason = None):
 
         if user is None:
             await ctx.message.delete()
