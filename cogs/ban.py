@@ -18,11 +18,11 @@ class Ban(commands.Cog):
         else:
             if reason is not None:
                 await ctx.message.delete()
-                await ctx.channel.send(f'Banned {user.mention}, for: {reason}', delete_after = 5)
+                await ctx.channel.send(f'Banned {user.mention}, for: {reason}')
                 await user.kick(reason = reason)
             else:
                 await ctx.message.delete()
-                await ctx.channel.send(f'Banned {user.mention}, for: No reason', delete_after = 5)
+                await ctx.channel.send(f'Banned {user.mention}, for: No reason')
                 await user.ban(reason = 'No reason given')
 
 
