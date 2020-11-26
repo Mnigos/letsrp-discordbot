@@ -27,12 +27,12 @@ class Mute(commands.Cog):
                 await ctx.message.delete()
                 await ctx.channel.send(f'Muted {user.mention}, for: {reason}')
                 await user.add_roles(muted_role, reason = reason)
-                await user.send(f'You were muted in {ctx.guild.name}, for: {reason}')
+                await user.send(f'You were muted in **{ctx.guild.name}**, for: {reason}')
             else:
                 await ctx.message.delete()
                 await ctx.channel.send(f'Muted {user.mention}, for: No reason')
                 await user.add_roles(muted_role, reason = 'No reason given')
-                await user.send(f'You were muted in {ctx.guild.name}, for: No reason given')
+                await user.send(f'You were muted in **{ctx.guild.name}**, for: No reason given')
 
 
 

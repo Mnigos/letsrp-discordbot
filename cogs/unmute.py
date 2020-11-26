@@ -20,7 +20,7 @@ class Unmute(commands.Cog):
             await ctx.message.delete()
             await ctx.channel.send(f'Unmuted {user.mention}')
             await user.remove_roles(muted_role)
-            await user.send(f'You were unmuted in {ctx.guild.name}')
+            await user.send(f'You were unmuted in **{ctx.guild.name}**')
 
 
 
