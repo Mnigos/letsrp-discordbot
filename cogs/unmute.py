@@ -15,11 +15,11 @@ class Unmute(commands.Cog):
         await ctx.message.delete()
 
         if user is None:
-            await ctx.channel.send(f"Sorry, You've to specify user to unmute", delete_after = 5)
+            await ctx.channel.send(f"Musisz podać użytkownika do odmutowania", delete_after = 5)
         else:
-            await ctx.channel.send(f'Unmuted {user.mention}')
+            await ctx.channel.send(f'Odmutowano {user.mention}')
             await user.remove_roles(muted_role)
-            await user.send(f'You were unmuted in **{ctx.guild.name}**')
+            await user.send(f'Zostałeś odmutowany na **{ctx.guild.name}**')
 
 
 

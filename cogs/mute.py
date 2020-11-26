@@ -23,14 +23,14 @@ class Mute(commands.Cog):
                 await channel.set_permisions(muted_role, speak = False, send_messages = False, read_message_history = True, read_messages = True)
 
         if user is None:
-            await ctx.channel.send(f"Sorry, You've to specify user to mute", delete_after = 5)
+            await ctx.channel.send(f"Musisz podać użytkownika do zmutowania", delete_after = 5)
         else:
             if reason is None:
                 reason = 'Nieznany'
 
-            await ctx.channel.send(f'Muted {user.mention}, for: {reason}')
+            await ctx.channel.send(f'Zmutowano {user.mention}, Powód: {reason}')
             await user.add_roles(muted_role, reason = reason)
-            await user.send(f'You were muted in **{ctx.guild.name}**, for: {reason}')
+            await user.send(f'Zostałeś zmutowany na **{ctx.guild.name}**, Powód: {reason}')
 
             embed = discord.Embed(
                 title = 'Użytkownik zmutowany',

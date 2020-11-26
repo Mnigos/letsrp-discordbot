@@ -14,12 +14,11 @@ class Unban(commands.Cog):
         await ctx.message.delete()
 
         if user is None:
-            await ctx.channel.send(f"Sorry, You've to specify user to unban", delete_after = 5)
+            await ctx.channel.send(f"Musisz podać użytkownika do odbanowania", delete_after = 5)
         else:
             await ctx.message.delete()
-            await ctx.channel.send(f'Unbanned {user.mention}')
+            await ctx.channel.send(f'Odbanowano {user.mention}')
             await user.Unban()
-            await user.send(f'You were Unbanned in **{ctx.guild.name}**')
 
 
 

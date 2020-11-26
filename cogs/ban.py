@@ -14,13 +14,13 @@ class Ban(commands.Cog):
         await ctx.message.delete()
 
         if user is None:
-            await ctx.channel.send(f"Sorry, You've to specify user to ban", delete_after = 5)
+            await ctx.channel.send(f"Musisz podać użytkownika do zbanowania", delete_after = 5)
         else:
             if reason is None:
                 reason = 'Nieznany'
 
-            await ctx.channel.send(f'Banned {user.mention}, for: {reason}')
-            await user.send(f'You were banned in **{ctx.guild.name}**, for: {reason}')
+            await ctx.channel.send(f'Zbanowano {user.mention}, Powód: {reason}')
+            await user.send(f'Zostałeś zbanowany na **{ctx.guild.name}**, Powód: {reason}')
             await user.kick(reason = reason)
 
 
