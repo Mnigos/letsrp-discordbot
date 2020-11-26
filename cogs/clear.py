@@ -13,11 +13,11 @@ class Clear(commands.Cog):
 
         if amount == 0:
             await ctx.message.delete()
-            await ctx.channel.send("You've to specify amount of purge", delete_after=5)
+            await ctx.channel.send("You've to specify amount of purge", delete_after = 5)
         else:
             await ctx.message.delete()
             await ctx.channel.purge(limit = amount)
-            await ctx.channel.send(f'Deleted {amount} message(s)', delete_after=5)
+            await ctx.channel.send(f'Deleted {amount} message(s)', delete_after = 5)
 
 
 
