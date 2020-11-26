@@ -12,6 +12,9 @@ class Mute(commands.Cog):
     @commands.has_permissions(manage_messages = True)
     async def mute(self, ctx, user: discord.Member = None, *, reason = None):
         muted_role = discord.utils.get(ctx.guild.roles,  name = 'muted')
+        channel = self.client.get_channel(694652874109485216)
+
+        await ctx.message.delete()
 
         if not muted_role:
             muted_role = await ctx.guild.create_role(name = 'muted')
@@ -20,19 +23,24 @@ class Mute(commands.Cog):
                 await channel.set_permisions(muted_role, speak = False, send_messages = False, read_message_history = True, read_messages = True)
 
         if user is None:
-            await ctx.message.delete()
             await ctx.channel.send(f"Sorry, You've to specify user to mute", delete_after = 5)
         else:
-            if reason is not None:
-                await ctx.message.delete()
-                await ctx.channel.send(f'Muted {user.mention}, for: {reason}')
-                await user.add_roles(muted_role, reason = reason)
-                await user.send(f'You were muted in **{ctx.guild.name}**, for: {reason}')
-            else:
-                await ctx.message.delete()
-                await ctx.channel.send(f'Muted {user.mention}, for: No reason')
-                await user.add_roles(muted_role, reason = 'No reason given')
-                await user.send(f'You were muted in **{ctx.guild.name}**, for: No reason given')
+            if reason is None:
+                reason = 'Nieznany'
+
+            await ctx.channel.send(f'Muted {user.mention}, for: {reason}')
+            await user.add_roles(muted_role, reason = reason)
+            await user.send(f'You were muted in **{ctx.guild.name}**, for: {reason}')
+
+            embed = discord.Embed(
+                title = 'Użytkownik zmutowany',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Moderator', value = ctx.author.mention)
+            embed.add_field(name = 'Zmutowany', value = user.mention)
+            embed.add_field(name = 'Powód', value = reason)
+
+            await channel.send(embed = embed)
 
 
 
