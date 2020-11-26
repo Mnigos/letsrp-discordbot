@@ -8,7 +8,7 @@ async def sending_forms(wlforms, client):
     formAccepted = wlforms.find_one({ 'status': 'accepted' })
     formRejected = wlforms.find_one({ 'status': 'rejected' })
 
-    if formAccepted != None:
+    if formAccepted is not None:
         print('e')
         name = formAccepted['dc']
 
@@ -21,7 +21,7 @@ async def sending_forms(wlforms, client):
 
         await channel.send(embed = embed)
 
-    if formRejected != None:
+    if formRejected is not None:
         name = formRejected['dc']
         reason = formRejected['reason']
 
