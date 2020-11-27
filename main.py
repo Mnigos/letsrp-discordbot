@@ -21,7 +21,7 @@ print('Connected to DB')
 
 @client.event
 async def on_ready():
-    activity = discord.Game('Write rp!info for server informations')
+    activity = discord.Game('rp!info for server informations')
     await client.change_presence(activity = activity)
     print('Bot is active!')
     sending_forms.start(wlforms, client)
