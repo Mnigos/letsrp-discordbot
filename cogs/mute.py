@@ -109,12 +109,5 @@ class Mute(commands.Cog):
                     await channel.send(embed = embed)
 
 
-
-
-
-
-
-
-
 def setup(client):
     client.add_cog(Mute(client))

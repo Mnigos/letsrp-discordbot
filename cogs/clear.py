@@ -19,7 +19,5 @@ class Clear(commands.Cog):
             await ctx.channel.send(f'Usunięto {amount} wiadomości', delete_after = 5)
 
 
-
-
 def setup(client):
     client.add_cog(Clear(client))

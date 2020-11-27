@@ -35,6 +35,5 @@ class Ban(commands.Cog):
             await channel.send(embed = embed)
 
 
-
 def setup(client):
     client.add_cog(Ban(client))
