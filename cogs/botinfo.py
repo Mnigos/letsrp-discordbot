@@ -9,7 +9,6 @@ class Botinfo(commands.Cog):
         self.client = client
 
     @commands.command()
-    @commands.has_permissions(manage_messages = True)
     async def botinfo(self, ctx):
         await ctx.message.delete()
 
