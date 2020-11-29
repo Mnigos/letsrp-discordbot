@@ -1,11 +1,12 @@
 import os
 import discord
+import leveling
 
 from dotenv import load_dotenv, find_dotenv
 from discord.ext import commands, tasks
+from fivem import FiveM
 from pymongo import MongoClient
 from forms import sending_forms
-from fivem import FiveM
 
 
 load_dotenv(find_dotenv())
@@ -14,9 +15,9 @@ intents = discord.Intents.default()
 intents.members = True
 key = os.getenv('CLIENT_SECRET')
 client = commands.Bot(command_prefix = 'rp!', intents = intents)
-clientDB = MongoClient(os.getenv('MONGO_URI'))
-db = clientDB['Letsrp-db']
-wlforms = db.wlforms
+cluster = MongoClient(os.getenv('MONGO_URI'))
+site_db = cluster['Letsrp-db']
+wlforms = site_db.wlforms
 server = FiveM(ip = 'wyspa.letsrp.pl', port = 30120)
 info = '';
 

@@ -14,7 +14,6 @@ async def sending_forms(wlforms, client):
     if formAccepted is not None:
         dc = formAccepted['dc']
         user = guild.get_member_named(dc)
-        print(user)
 
         if user is not None:
             embed = discord.Embed(
