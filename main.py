@@ -1,6 +1,5 @@
 import os
 import discord
-import leveling
 
 from dotenv import load_dotenv, find_dotenv
 from discord.ext import commands, tasks
