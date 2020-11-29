@@ -22,6 +22,7 @@ class Serverinfo(commands.Cog):
         )
         embed.add_field(name = 'IP Serwera', value = 'wyspa.letsrp.pl')
         embed.add_field(name = 'Graczy', value = f'{info.clients}/{info.max_clients}')
+        embed.set_footer(text = f'Author {ctx.author.mention}')
 
         await ctx.channel.send(embed = embed)
 

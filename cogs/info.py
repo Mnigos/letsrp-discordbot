@@ -22,6 +22,7 @@ class Info(commands.Cog):
         embed.add_field(name = 'Jak połączyć się z serwerem', value = '''Wyszukaj w wyszukiwarce Let's RP,
                                                                         lub wciśnij F8 a następnie w konsoli wpisz `connect wyspa.letsrp.pl`''', inline = False)
         embed.set_footer(text = 'Nadal czegoś nie wiesz? Pisz do administracji')
+        embed.set_footer(text = f'Author {ctx.author.mention}')
 
         await ctx.channel.send(embed = embed)
 

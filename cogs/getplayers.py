@@ -35,6 +35,7 @@ class Getplayers(commands.Cog):
         embed.add_field(name = 'ID', value = id)
         embed.add_field(name = 'Nazwa', value = name)
         embed.add_field(name = 'Discord', value = dc)
+        embed.set_footer(text = f'Author {ctx.author.mention}')
 
         await ctx.channel.send(embed = embed)
 
