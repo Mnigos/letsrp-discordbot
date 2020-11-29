@@ -9,7 +9,6 @@ class Info(commands.Cog):
         self.client = client
 
     @commands.command()
-    @commands.has_permissions(manage_messages = True)
     async def info(self, ctx):
         await ctx.message.delete()
 
