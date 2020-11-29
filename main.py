@@ -5,6 +5,7 @@ from dotenv import load_dotenv, find_dotenv
 from discord.ext import commands, tasks
 from pymongo import MongoClient
 from forms import sending_forms
+from fivem import FiveM
 
 
 load_dotenv(find_dotenv())
@@ -16,15 +17,19 @@ client = commands.Bot(command_prefix = 'rp!', intents = intents)
 clientDB = MongoClient(os.getenv('MONGO_URI'))
 db = clientDB['Letsrp-db']
 wlforms = db.wlforms
+server = FiveM(ip = 'wyspa.letsrp.pl', port = 30120)
+info = '';
 
 print('Connected to DB')
 
 @client.event
 async def on_ready():
-    activity = discord.Game('rp!info for server informations')
+    info = await server.get_server_info()
+    activity = discord.Game(f'{info.clients}/{info.max_clients}')
     await client.change_presence(activity = activity)
     print('Bot is active!')
     sending_forms.start(wlforms, client)
+    players_on_server.start()
 
 @client.event
 async def on_voice_state_update(member, before, after):
@@ -35,6 +40,10 @@ async def on_voice_state_update(member, before, after):
         if after.channel.id == 695967154058690592 or after.channel.id == 695967176724578366 or after.channel.id == 695967207406043146:
             if after.channel.permissions_for(member) < discord.Permissions(permissions = 268435456):
                 await member.add_roles(interview_role, reason = 'Rozmowa Whitelist')
+
+@tasks.loop(seconds = 2)
+async def players_on_server():
+    info = await server.get_server_info()
 
 @client.command()
 async def load(ctx, extension):
