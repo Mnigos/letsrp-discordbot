@@ -44,6 +44,8 @@ async def on_voice_state_update(member, before, after):
 @tasks.loop(seconds = 2)
 async def players_on_server():
     info = await server.get_server_info()
+    activity = discord.Game(f'{info.clients}/{info.max_clients}')
+    await client.change_presence(activity = activity)
 
 @client.command()
 async def load(ctx, extension):
