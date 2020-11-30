@@ -245,3 +245,63 @@ async def sending_forms(db, client):
             await channel.send(user.mention)
 
         db.orgforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
+
+
+    # EMS forms
+
+    ems_form_accepted = db.emsforms.find_one({ 'status': 'accepted' })
+    ems_form_rejected = db.emsforms.find_one({ 'status': 'rejected' })
+
+    if ems_form_accepted is not None:
+        dc = ems_form_accepted['dc']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na frakcję EMS',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na frakcję EMS zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na frakcję EMS',
+                description = f'''Twoje podanie {user.mention} na frakcję EMS zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+
+        db.emsforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
+        await client.add_roles(user, role)
+
+
+    if ems_form_rejected is not None:
+        dc = ems_form_rejected['dc']
+        reason = ems_form_rejected['reason']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na frakcję EMS',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na frakcję EMS zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na frakcję EMS',
+                description = f'''Twoje podanie {user.mention} na frakcję EMS zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+        db.emsforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
