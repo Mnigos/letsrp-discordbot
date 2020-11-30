@@ -2,6 +2,8 @@
 
 Simply discordbot for Polish GTA V FiveM RolePlay Server.
 
+![Heroku](https://pyheroku-badge.herokuapp.com/?app=letsrp-discordbot&style=flat)
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 
 
