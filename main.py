@@ -28,7 +28,7 @@ async def on_ready():
     activity = discord.Game(f'{info.clients}/{info.max_clients}')
     await client.change_presence(activity = activity)
     print('Bot is active!')
-    sending_forms.start(wlforms, client)
+    sending_forms.start(site_db, client)
     players_on_server.start()
 
 @client.event

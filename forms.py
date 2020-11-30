@@ -3,13 +3,13 @@ import discord
 from discord.ext import commands, tasks
 
 @tasks.loop(seconds = 2)
-async def sending_forms(wlforms, client):
+async def sending_forms(db, client):
     channel = client.get_channel(694925226697556078)
     guild = client.get_guild(640178024280752158)
     role = guild.get_role(693824755911884831)
 
-    formAccepted = wlforms.find_one({ 'status': 'accepted' })
-    formRejected = wlforms.find_one({ 'status': 'rejected' })
+    formAccepted = db.wlforms.find_one({ 'status': 'accepted' })
+    formRejected = db.wlforms.find_one({ 'status': 'rejected' })
 
     if formAccepted is not None:
         dc = formAccepted['dc']
@@ -22,7 +22,7 @@ async def sending_forms(wlforms, client):
                 Zgłoś się jak najszybciej na rozmowę!''',
                 colour = 0x00ff00
             )
-            wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
+            db.wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
 
             await channel.send(embed = embed)
             await channel.send(user.mention)
@@ -41,7 +41,7 @@ async def sending_forms(wlforms, client):
             colour = 0xff0000
         )
         embed.add_field(name = 'Powód:', value = f'{reason}')
-        wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
+        db.wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
 
         await channel.send(embed = embed)
         await channel.send(user.mention)
