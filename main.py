@@ -29,7 +29,7 @@ print('Connected to DB')
 
 @client.event
 async def on_ready():
-    if server not None:
+    if server is not None:
         info = await server.get_server_info()
         activity = discord.Game(f'{info.clients}/{info.max_clients}')
         await client.change_presence(activity = activity)
