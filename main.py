@@ -17,19 +17,25 @@ client = commands.Bot(command_prefix = 'rp!', intents = intents)
 cluster = MongoClient(os.getenv('MONGO_URI'))
 site_db = cluster['Letsrp-db']
 wlforms = site_db.wlforms
-server = FiveM(ip = 'wyspa.letsrp.pl', port = 30120)
 info = '';
+
+try:
+    server = FiveM(ip = 'wyspa.letsrp.pl', port = 30120)
+except:
+    server = None
+    print('Cannot connect to FiveM')
 
 print('Connected to DB')
 
 @client.event
 async def on_ready():
-    info = await server.get_server_info()
-    activity = discord.Game(f'{info.clients}/{info.max_clients}')
-    await client.change_presence(activity = activity)
-    print('Bot is active!')
+    if server not None:
+        info = await server.get_server_info()
+        activity = discord.Game(f'{info.clients}/{info.max_clients}')
+        await client.change_presence(activity = activity)
+        players_on_server.start()
     sending_forms.start(site_db, client)
-    players_on_server.start()
+    print('Bot is active!')
 
 @tasks.loop(seconds = 2)
 async def players_on_server():
