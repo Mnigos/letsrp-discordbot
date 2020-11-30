@@ -31,16 +31,6 @@ async def on_ready():
     sending_forms.start(site_db, client)
     players_on_server.start()
 
-@client.event
-async def on_voice_state_update(member, before, after):
-    guild = client.get_guild(640178024280752158)
-    interview_role = guild.get_role(780455138686271538)
-
-    if after.channel:
-        if after.channel.id == 695967154058690592 or after.channel.id == 695967176724578366 or after.channel.id == 695967207406043146:
-            if after.channel.permissions_for(member) < discord.Permissions(permissions = 268435456):
-                await member.add_roles(interview_role, reason = 'Rozmowa Whitelist')
-
 @tasks.loop(seconds = 2)
 async def players_on_server():
     info = await server.get_server_info()
