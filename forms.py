@@ -21,7 +21,7 @@ async def sending_forms(db, client):
 
         if user is None:
             embed = discord.Embed(
-                title = 'Podanie na Supporta',
+                title = 'Podanie na Whitelist',
                 description = f'''Twoje podanie (Nie znaleziono użytkownika) na Whitelist zostało zaakceptowane.
                 Zgłoś się jak najszybciej na rozmowę!''',
                 colour = 0x00ff00
@@ -29,7 +29,7 @@ async def sending_forms(db, client):
             await channel.send(embed = embed)
         else:
             embed = discord.Embed(
-                title = 'Podanie na Supporta',
+                title = 'Podanie na Whitelist',
                 description = f'''Twoje podanie {user.mention} na Whitelist zostało zaakceptowane.
                 Zgłoś się jak najszybciej na rozmowę!''',
                 colour = 0x00ff00
@@ -47,8 +47,8 @@ async def sending_forms(db, client):
 
         if user is None:
             embed = discord.Embed(
-                title = 'Podanie na Supporta',
-                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Supporta zostało odrzucone.
+                title = 'Podanie na Whitelist',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Whitelist zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
                 colour = 0x00ff00
             )
@@ -56,8 +56,8 @@ async def sending_forms(db, client):
             await channel.send(embed = embed)
         else:
             embed = discord.Embed(
-                title = 'Podanie na Supporta',
-                description = f'''Twoje podanie {user.mention} na Supporta zostało odrzucone.
+                title = 'Podanie na Whitelist',
+                description = f'''Twoje podanie {user.mention} na Whitelist zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
                 colour = 0x00ff00
             )
