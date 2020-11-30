@@ -36,12 +36,12 @@ async def sending_forms(db, client):
             )
             await channel.send(embed = embed)
             await channel.send(user.mention)
-            await client.add_roles(user, role)
+            await user.add_roles(role)
             db.wlforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
 
 
     if wl_form_rejected is not None:
-        name = wl_form_rejected['dc']
+        dc = wl_form_rejected['dc']
         reason = wl_form_rejected['reason']
         user = guild.get_member_named(dc)
 
@@ -50,7 +50,7 @@ async def sending_forms(db, client):
                 title = 'Podanie na Whitelist',
                 description = f'''Twoje podanie (Nie znaleziono użytkownika) na Whitelist zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
-                colour = 0x00ff00
+                colour = 0xff0000
             )
             embed.add_field(name = 'Powód:', value = f'{reason}')
             await channel.send(embed = embed)
@@ -59,7 +59,7 @@ async def sending_forms(db, client):
                 title = 'Podanie na Whitelist',
                 description = f'''Twoje podanie {user.mention} na Whitelist zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
-                colour = 0x00ff00
+                colour = 0xff0000
             )
             embed.add_field(name = 'Powód:', value = f'{reason}')
             await channel.send(embed = embed)
@@ -100,7 +100,7 @@ async def sending_forms(db, client):
 
 
     if sup_form_rejected is not None:
-        name = sup_form_rejected['dc']
+        dc = sup_form_rejected['dc']
         reason = sup_form_rejected['reason']
         user = guild.get_member_named(dc)
 
@@ -109,7 +109,7 @@ async def sending_forms(db, client):
                 title = 'Podanie na Supporta',
                 description = f'''Twoje podanie (Nie znaleziono użytkownika) na Supporta zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
-                colour = 0x00ff00
+                colour = 0xff0000
             )
             embed.add_field(name = 'Powód:', value = f'{reason}')
             await channel.send(embed = embed)
@@ -118,10 +118,130 @@ async def sending_forms(db, client):
                 title = 'Podanie na Supporta',
                 description = f'''Twoje podanie {user.mention} na Supporta zostało odrzucone.
                 Zgłoś się jak najszybciej na rozmowę!''',
-                colour = 0x00ff00
+                colour = 0xff0000
             )
             embed.add_field(name = 'Powód:', value = f'{reason}')
             await channel.send(embed = embed)
             await channel.send(user.mention)
 
         db.supforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
+
+
+    # Firm forms
+
+    firm_form_accepted = db.firmforms.find_one({ 'status': 'accepted' })
+    firm_form_rejected = db.firmforms.find_one({ 'status': 'rejected' })
+
+    if firm_form_accepted is not None:
+        dc = firm_form_accepted['dc']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Firmę',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Firmę zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Firmę',
+                description = f'''Twoje podanie {user.mention} na Firmę zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+
+        db.firmforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
+        await client.add_roles(user, role)
+
+
+    if firm_form_rejected is not None:
+        dc = firm_form_rejected['dc']
+        reason = firm_form_rejected['reason']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Firmę',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Firmę zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Firmę',
+                description = f'''Twoje podanie {user.mention} na Firmę zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+        db.firmforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
+
+
+    # Org forms
+
+    org_form_accepted = db.orgforms.find_one({ 'status': 'accepted' })
+    org_form_rejected = db.orgforms.find_one({ 'status': 'rejected' })
+
+    if org_form_accepted is not None:
+        dc = org_form_accepted['dc']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Organizację przestępczą',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Organizację przestępczą zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Organizację przestępczą',
+                description = f'''Twoje podanie {user.mention} na Organizację przestępczą zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+
+        db.orgforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
+        await client.add_roles(user, role)
+
+
+    if org_form_rejected is not None:
+        dc = org_form_rejected['dc']
+        reason = org_form_rejected['reason']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Organizację przestępczą',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Organizację przestępczą zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Organizację przestępczą',
+                description = f'''Twoje podanie {user.mention} na Organizację przestępczą zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+        db.orgforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
