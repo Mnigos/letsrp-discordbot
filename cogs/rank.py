@@ -15,10 +15,14 @@ class Rank(commands.Cog):
         self.client = client
 
     @commands.command()
-    async def rank(self, ctx):
+    async def rank(self, ctx, user: discord.Member = None):
         await ctx.message.delete()
-        rank = await leaderboard(ctx.author)
-        query = users.find_one({ 'user': ctx.author.id })
+
+        if not user:
+            user = ctx.author
+
+        rank = await leaderboard(user)
+        query = users.find_one({ 'user': user.id })
         exp = query['exp']
         lvl = query['level']
         sum = 0
@@ -27,13 +31,13 @@ class Rank(commands.Cog):
             sum += 5 * i ** 2 + 50 * i * 5
 
         embed = discord.Embed(
-            title = ctx.author.name,
+            title = user.name,
             colour = 0x62ff00
         )
         embed.add_field(name = 'Ranga', value = f'#{rank}', inline = False)
         embed.add_field(name = 'Poziom', value = lvl)
         embed.add_field(name = 'XP', value = f'{exp}/{sum}')
-        embed.set_thumbnail(url = ctx.author.avatar_url)
+        embed.set_thumbnail(url = user.avatar_url)
         embed.set_footer(text = f'Author {ctx.author}')
 
         await ctx.channel.send(embed = embed)
