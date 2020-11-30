@@ -2,6 +2,9 @@
 
 Simply discordbot for Polish GTA V FiveM RolePlay Server.
 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
+
+
 ## See our website
 https://letsrp.pl
 
