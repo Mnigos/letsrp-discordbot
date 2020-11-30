@@ -365,3 +365,63 @@ async def sending_forms(db, client):
             await channel.send(user.mention)
 
         db.lspdforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
+
+
+    # LSCM forms
+
+    lscm_form_accepted = db.lscmforms.find_one({ 'status': 'accepted' })
+    lscm_form_rejected = db.lscmforms.find_one({ 'status': 'rejected' })
+
+    if lscm_form_accepted is not None:
+        dc = lscm_form_accepted['dc']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Mechanika',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Mechanika zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Mechanika',
+                description = f'''Twoje podanie {user.mention} na Mechanika zostało zaakceptowane.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0x00ff00
+            )
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+
+        db.lscmforms.update_one({ 'dc': dc }, { '$set': { 'status': 'acceptedSent' }})
+        await client.add_roles(user, role)
+
+
+    if lscm_form_rejected is not None:
+        dc = lscm_form_rejected['dc']
+        reason = lscm_form_rejected['reason']
+        user = guild.get_member_named(dc)
+
+        if user is None:
+            embed = discord.Embed(
+                title = 'Podanie na Mechanika',
+                description = f'''Twoje podanie (Nie znaleziono użytkownika) na Mechanika zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+        else:
+            embed = discord.Embed(
+                title = 'Podanie na Mechanika',
+                description = f'''Twoje podanie {user.mention} na Mechanika zostało odrzucone.
+                Zgłoś się jak najszybciej na rozmowę!''',
+                colour = 0xff0000
+            )
+            embed.add_field(name = 'Powód:', value = f'{reason}')
+            await channel.send(embed = embed)
+            await channel.send(user.mention)
+
+        db.lscmforms.update_one({ 'dc': dc }, { '$set': { 'status': 'rejectedSent' }})
